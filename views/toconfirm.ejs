@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Plan Activate</title>
+  <link rel="stylesheet" href="../globals.css">
+
+  <style>
+    :root {
+      --admin-bg: #f8f9fa;
+      --border-light: #eff1f3;
+    }
+
+    body {
+      background-color: var(--admin-bg);
+      padding-bottom: 40px;
+      user-select: text !important;
+    }
+
+    .admin-navbar {
+      height: 64px;
+      background: var(--surface);
+      border-bottom: 1px solid #dadce0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 2000;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-logo-icon {
+      color: var(--accent-blue);
+      font-size: 28px;
+    }
+
+    .nav-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .btn-back {
+      color: var(--text-sub);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      transition: var(--transition);
+    }
+
+    .btn-back:active {
+      transform: scale(0.98);
+      background: #f1f3f4;
+      color: var(--text-main);
+    }
+
+    .stat-card {
+      background: var(--surface);
+      padding: 20px;
+      border-radius: var(--radius-m);
+      border: 1px solid var(--border-light);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      transition: var(--transition);
+      margin-bottom: 18px;
+    }
+
+    .stat-card:active {
+      transform: scale(0.99);
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      color: var(--text-sub);
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-val {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .stat-subtext {
+      font-size: 0.8rem;
+      color: var(--accent-blue);
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    .dashboard-main {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 20px;
+    }
+
+    .submit-btn {
+      background: var(--accent-blue-container);
+      color: var(--md-on-blue-container);
+      padding: 10px 16px;
+      border: none;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+      margin-bottom: 18px;
+      margin-left: auto;
+      margin-right: 0;
+    }
+
+    .submit-btn:active {
+      transform: scale(0.98);
+      filter: contrast(1.1);
+    }
+
+    .data-panel {
+      background: var(--surface);
+      border-radius: var(--radius-m);
+      border: 1px solid var(--border-light);
+      overflow: visible;
+    }
+
+    .table-head {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      padding: 14px 24px;
+      background: #f8f9fa;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-sub);
+      text-transform: uppercase;
+    }
+
+    .table-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border-light);
+      align-items: center;
+      transition: background 0.2s;
+    }
+
+    .table-row:last-child {
+      border-bottom: none;
+    }
+
+    .table-row:hover {
+      background: #fcfcfc;
+    }
+
+    .user-cell {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: help;
+    }
+
+    .u-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: #e8f0fe;
+      color: var(--accent-blue);
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+    }
+
+    .popover-details {
+      position: absolute;
+      top: 45px;
+      left: 0;
+      width: 260px;
+      background: #ffffff;
+      border: 1px solid #dadce0;
+      border-radius: var(--radius-m);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+      padding: 16px;
+      z-index: 2500;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: var(--transition);
+    }
+
+    .user-cell:hover .popover-details {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .pop-row {
+      margin-bottom: 10px;
+    }
+
+    .pop-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .pop-label {
+      font-size: 0.65rem;
+      color: var(--text-sub);
+      font-weight: 700;
+      text-transform: uppercase;
+      display: block;
+    }
+
+    .pop-val {
+      font-size: 0.85rem;
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .btn-done {
+      background: var(--accent-blue);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: var(--radius-pill);
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+
+    .btn-done .tick-icon {
+      display: none;
+      font-size: 18px;
+    }
+
+    .btn-done.completed {
+      background: var(--green);
+      color: white;
+    }
+
+    .btn-done.completed .tick-icon {
+      display: inline-block;
+    }
+
+    .btn-done:active {
+      transform: scale(0.98);
+      opacity: 0.9;
+    }
+
+    @media (max-width: 900px) {
+      .table-head {
+        display: none;
+      }
+
+      .table-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 20px;
+        border-bottom: 8px solid var(--admin-bg);
+      }
+
+      .user-cell {
+        border-bottom: 1px solid var(--border-light);
+        padding-bottom: 12px;
+      }
+
+      .mobile-label {
+        display: block;
+        font-size: 0.7rem;
+        color: var(--text-sub);
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-bottom: 2px;
+      }
+
+      .popover-details {
+        width: calc(100vw - 40px);
+        left: 0;
+        position: fixed;
+        top: auto;
+        bottom: 20px;
+        left: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="admin-navbar">
+    <div class="nav-left">
+      <span class="material-symbols-rounded nav-logo-icon">dashboard</span>
+      <span class="nav-title">CarriagePatch Admin</span>
+    </div>
+    <div class="nav-right">
+      <a href="/home" class="btn-back">
+        <span class="material-symbols-rounded" style="font-size: 20px;">arrow_back</span>
+        Dashboard
+      </a>
+    </div>
+  </nav>
+
+  <main class="dashboard-main">
+
+    <!-- Stats -->
+    <div class="stat-card" style="border-bottom: 3px solid #ea4335;">
+      <div class="stat-label">
+        To Activate Requests
+      </div>
+      <div class="stat-val">
+        <%= users.length %> users
+      </div>
+    </div>
+
+    <form method="POST" action="/confirm-plans">
+
+      <button type="submit" class="submit-btn">
+        Submit
+        <span class="material-symbols-rounded">done</span>
+      </button>
+
+      <div class="data-panel">
+        <div class="table-head">
+          <span>User</span>
+          <span>Paid Amount</span>
+          <span>Payment Date</span>
+          <span>Action</span>
+        </div>
+
+        <% if (users.length === 0) { %>
+        <div style="padding: 20px; text-align: center; color: gray;">
+          No pending requests
+        </div>
+        <% } %>
+
+        <% users.forEach(u => { %>
+        <div class="table-row">
+
+          <div class="user-cell">
+            <div class="u-avatar">
+              <%= u.name.charAt(0) + (u.name.split(' ')[1]?.charAt(0) || '') %>
+            </div>
+
+            <div style="font-weight: 600;"><%= u.name %></div>
+
+            <div class="popover-details">
+              <div class="pop-row">
+                <span class="pop-label">User Name</span>
+                <span class="pop-val"><%= u.name %></span>
+              </div>
+              <div class="pop-row">
+                <span class="pop-label">Gmail</span>
+                <span class="pop-val"><%= u.email %></span>
+              </div>
+              <div class="pop-row">
+                <span class="pop-label">Mobile No.</span>
+                <span class="pop-val"><%= u.payingPhone %></span>
+              </div>
+              <div class="pop-row">
+                <span class="pop-label">Paid Amount</span>
+                <span class="pop-val">₹<%= u.plan.pending == 1 ? 199 : 299 %></span>
+              </div>
+              <div class="pop-row">
+                <span class="pop-label">CURRENT PLAN</span>
+                <span class="pop-val"><%= u?.plan.active === 0 ? "Not Active" : u?.plan.active === 1 ? "Free Plan" : u?.plan.active === 2 ? "Basic": "Pro"%></span>
+              </div>
+              <div class="pop-row">
+                <span class="pop-label">Joined On</span>
+                <span class="pop-val">
+                  <%= new Date(u.createdAt).toDateString() %>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <span class="mobile-label">Amount Paid</span>
+            <span style="font-weight: 700;">
+              ₹<%= u.plan.pending == 1 ? 199 : 299 %>
+            </span>
+          </div>
+
+          <div style="color: var(--text-sub); font-size: 0.85rem;">
+            <span class="mobile-label">From UPI number</span>
+            <%= u.payingPhone %>
+          </div>
+
+          <div>
+            <label class="btn-done" style="cursor:pointer;">
+              <input type="checkbox" name="userIds" value="<%= u._id %>" style="display:none;" onchange="this.parentElement.classList.toggle('completed')" />
+              <span class="material-symbols-rounded tick-icon">
+                check_circle
+              </span>
+              Done
+            </label>
+          </div>
+
+        </div>
+        <% }) %>
+      </div>
+    </form>
+  </main>
+</body>
+</html>

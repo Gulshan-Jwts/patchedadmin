@@ -10,8 +10,10 @@ const jwt = require("jsonwebtoken");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  if (!req.cookies.token) res.redirect("/login");
-  res.redirect("/home");
+  if (!req.cookies.token) {
+    return res.redirect("/login");
+  }
+  return res.redirect("/home");
 });
 
 // Login page

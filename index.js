@@ -15,6 +15,8 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(rootDir, "public")));
 
+console.log(path.join(rootDir, "public"))
+
 app.set("view engine", "ejs");
 app.set("views", path.join(rootDir, "views"));
 

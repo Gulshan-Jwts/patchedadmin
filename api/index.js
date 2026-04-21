@@ -22,4 +22,4 @@ app.set("views", path.join(rootDir, "views"));
 
 app.use("/", authRoutes);
 
-module.exports = serverless(app);
+module.exports = (req, res) => {return app(req,res)};

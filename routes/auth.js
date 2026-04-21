@@ -19,7 +19,10 @@ router.get("/", (req, res) => {
 // Login page
 router.get("/login", (req, res) => {
 console.log("login route hits")
-  res.render("login");
+   res.render("login");
+});
+router.get("/please", (req, res) => {
+res.send("login page");
 });
 
 router.post("/login", async (req, res) => {

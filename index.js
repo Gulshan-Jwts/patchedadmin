@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 require("dotenv").config();
 
-const authRoutes = require("../routes/auth");
+const authRoutes = require("./routes/auth");
 const rootDir = process.cwd();
 
 const app = express();

@@ -18,11 +18,7 @@ router.get("/", (req, res) => {
 
 // Login page
 router.get("/login", (req, res) => {
-console.log("login route hits")
    res.render("login");
-});
-router.get("/please", (req, res) => {
-res.send("login page");
 });
 
 router.post("/login", async (req, res) => {
@@ -42,7 +38,7 @@ router.post("/login", async (req, res) => {
   res.cookie("token", token, { httpOnly: true,secure: true,
   sameSite: "none" });
 
-  res.redirect("/home");
+  res.redirect(303, "/home");
 });
 
 router.get("/home", authMiddleware, async (req, res) => {
